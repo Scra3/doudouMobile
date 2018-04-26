@@ -1,0 +1,46 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>La doudou's fish</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-list>
+    <ion-item>
+      <h1 ion-text color="primary">Nourris il y'a {{ getTimeSinceLastMeal() }} heures</h1>
+    </ion-item>
+    <ion-item>
+      <h2>QT restante : {{ getRemainingQuantity() }}</h2>
+      <button item-end ion-button large icon-only color="dark" (click)="addMeal()">
+        <ion-icon name="md-pizza"></ion-icon>
+      </button>
+      <button item-end ion-button large icon-only color="danger" (click)="removeMeal()">
+        <ion-icon name="logo-apple"></ion-icon>
+      </button>
+    </ion-item>
+    <ion-item>
+      <h2 ion-text color="primary">Eau changé il y'a {{ watterChangedFrom() }} jours</h2>
+      <button item-end ion-button large icon-only color="dark" (click)="alertUserForWatter()">
+        <ion-icon name="md-beer"></ion-icon>
+      </button>
+    </ion-item>
+    <ion-item>
+      <ion-label colot="dark">Notes :</ion-label>
+      <ion-textarea value=" {{ getTodo() }}" placeholder="Exemple : Acheter à manger pour les poissons">
+      </ion-textarea>
+    </ion-item>
+  </ion-list>
+</ion-content>
+
+<ion-footer>
+  <div text-center>
+    <button strong ion-button large color="danger" (click)="alertUserForFeed()" icon-end>
+      Nourir les bébés
+      <ion-icon name="heart"></ion-icon>
+    </button>
+    <ion-item color="dark">
+      <ion-label>Nourir tous les jours</ion-label>
+      <ion-toggle [(ngModel)]="aquarium.feedEveryDay"></ion-toggle>
+    </ion-item>
+  </div>
+</ion-footer>
