@@ -1,44 +1,48 @@
 import { Component } from '@angular/core';
 import { AlertController, NavController } from 'ionic-angular';
 import { Aquarium } from '../../models/aquarium';
+import { AquariumProvider } from '../../providers/aquarium/aquarium';
+import * as moment from 'moment';
 
 @Component({
-  selector: 'page-home',
-  templateUrl: 'home.html'
+  selector: 'page-aquarium',
+  templateUrl: 'aquarium.html'
 })
-export class HomePage {
+export class AquariumPage {
   private aquarium: Aquarium;
 
   constructor(
     public alertCtrl: AlertController,
+    public AqrProvider: AquariumProvider,
     public navCtrl: NavController
   ) {
     this.subscribeToAquarium();
   }
 
   subscribeToAquarium() {
-    const initAquarium: Aquarium = {
-      lastMealAt: "18",
-      remainingQuantity: 3,
-      waterChangedAt: "7",
-      todo: "Acheter du pousses",
-      feedEveryDay: true,
-    };
-
-    this.aquarium = initAquarium;
+    this.AqrProvider.getAquarium().subscribe(aqr => this.aquarium = aqr);
   }
 
   feed() {
     this.aquarium.remainingQuantity = this.aquarium.remainingQuantity - 1;
-    this.aquarium.lastMealAt = "0";
+    this.aquarium.lastMealAt = new Date();
   }
-  waterIsChanged() { this.aquarium.waterChangedAt = "0"; }
+  waterIsChanged() { this.aquarium.waterChangedAt = new Date(); }
   addMeal() { this.aquarium.remainingQuantity = this.aquarium.remainingQuantity + 1; }
   removeMeal() { this.aquarium.remainingQuantity = this.aquarium.remainingQuantity - 1; }
+  handleAutomatisedFood() { this.aquarium.feedEveryDay = this.aquarium.feedEveryDay; }
+  handlefeedRemotly() {
+    this.aquarium.remainingQuantity = 0;
+    this.aquarium.lastMealAt = new Date();
+  }
 
-  getTimeSinceLastMeal(): number { return parseInt(this.aquarium.lastMealAt); }
+  getTimeSinceLastMeal(): string {
+    return moment(new Date()).diff(this.aquarium.lastMealAt, "hours");
+  }
   getRemainingQuantity(): number { return this.aquarium.remainingQuantity; }
-  watterChangedFrom(): number { return parseInt(this.aquarium.waterChangedAt); }
+  watterChangedFrom(): number {
+    return moment(new Date()).diff(this.aquarium.waterChangedAt, "days");
+  }
   getTodo(): string { return this.aquarium.todo; }
 
   alertUserForWatter() {

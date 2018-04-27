@@ -1,15 +1,19 @@
 <ion-header>
   <ion-navbar>
     <ion-title>La doudou's fish</ion-title>
+    <ion-item color="light">
+      <ion-label>Nourir à distance</ion-label>
+      <ion-toggle [(ngModel)]="aquarium.feedRemotly" (ionChange)="handlefeedRemotly()"></ion-toggle>
+    </ion-item>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
   <ion-list>
-    <ion-item>
+    <ion-item *ngIf="aquarium.feedRemotly">
       <h1 ion-text color="primary">Nourris il y'a {{ getTimeSinceLastMeal() }} heures</h1>
     </ion-item>
-    <ion-item>
+    <ion-item *ngIf="aquarium.feedRemotly">
       <h2>QT restante : {{ getRemainingQuantity() }}</h2>
       <button item-end ion-button large icon-only color="dark" (click)="addMeal()">
         <ion-icon name="md-pizza"></ion-icon>
@@ -32,7 +36,7 @@
   </ion-list>
 </ion-content>
 
-<ion-footer>
+<ion-footer *ngIf="aquarium.feedRemotly">
   <div text-center>
     <button strong ion-button large color="danger" (click)="alertUserForFeed()" icon-end>
       Nourir les bébés
@@ -40,7 +44,7 @@
     </button>
     <ion-item color="dark">
       <ion-label>Nourir tous les jours</ion-label>
-      <ion-toggle [(ngModel)]="aquarium.feedEveryDay"></ion-toggle>
+      <ion-toggle [(ngModel)]="aquarium.feedEveryDay" (ionChange)="handleAutomatisedFood()"></ion-toggle>
     </ion-item>
   </div>
 </ion-footer>
