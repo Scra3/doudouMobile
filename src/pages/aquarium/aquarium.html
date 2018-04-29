@@ -3,7 +3,7 @@
     <ion-title>La doudou's fish</ion-title>
     <ion-item color="light">
       <ion-label>Nourir à distance</ion-label>
-      <ion-toggle [(ngModel)]="aquarium.feedRemotly" (ionChange)="handlefeedRemotly()"></ion-toggle>
+      <ion-toggle value="aquarium.feedRemotly" (ionChange)="handlefeedRemotly()"></ion-toggle>
     </ion-item>
   </ion-navbar>
 </ion-header>
@@ -30,21 +30,20 @@
     </ion-item>
     <ion-item>
       <ion-label colot="dark">Notes :</ion-label>
-      <ion-textarea value=" {{ getTodo() }}" placeholder="Exemple : Acheter à manger pour les poissons">
+      <ion-textarea (change)="setTodo($event.target.value)" value=" {{ getTodo() }}" placeholder="Exemple : Acheter à manger pour les poissons">
       </ion-textarea>
     </ion-item>
   </ion-list>
-</ion-content>
 
-<ion-footer *ngIf="aquarium.feedRemotly">
-  <div text-center>
+  <div text-center *ngIf="aquarium.feedRemotly">
     <button strong ion-button large color="danger" (click)="alertUserForFeed()" icon-end>
       Nourir les bébés
       <ion-icon name="heart"></ion-icon>
     </button>
-    <ion-item color="dark">
-      <ion-label>Nourir tous les jours</ion-label>
-      <ion-toggle [(ngModel)]="aquarium.feedEveryDay" (ionChange)="handleAutomatisedFood()"></ion-toggle>
-    </ion-item>
   </div>
-</ion-footer>
+
+  <ion-item *ngIf="aquarium.feedRemotly">
+    <ion-label>Nourir tous les jours</ion-label>
+    <ion-toggle [(ngModel)]="aquarium.feedEveryDay" (ionChange)="handleAutomatisedFood()"></ion-toggle>
+  </ion-item>
+</ion-content>

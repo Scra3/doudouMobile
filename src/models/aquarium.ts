@@ -1,8 +1,8 @@
 export interface Aquarium {
-  feedRemotly: string,
-  lastMealAt: string,
-  remainingQuantity: number,
-  waterChangedAt: string,
+  feedRemotly: boolean,
+  lastMealAt?: Date,
+  remainingQuantity?: number,
+  waterChangedAt?: Date,
   feedEveryDay: boolean,
   todo: string
 }
