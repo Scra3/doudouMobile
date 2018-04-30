@@ -49,7 +49,7 @@ export class AquariumPage {
   handleAutomatisedFood() { this.aquarium.feedEveryDay = this.aquarium.feedEveryDay; }
 
   handlefeedRemotly() {
-    this.db.object(this.aquariumPath).update({ feedRemotly: !this.aquarium.feedRemotly });
+    this.db.object(this.aquariumPath).update({ feedRemotly: this.aquarium.feedRemotly });
   }
 
   setTodo(text: string) {
