@@ -5,6 +5,8 @@ import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
 
 import { AquariumPage } from '../pages/aquarium/aquarium';
+import { TodoListPage } from '../pages/todo-list/todo-list';
+import { TasksPage } from '../pages/tasks/tasks';
 import { TabsPage } from '../pages/tabs/tabs';
 import { LoginPage } from '../pages/login/login';
 
@@ -25,6 +27,8 @@ import {
   declarations: [
     MyApp,
     AquariumPage,
+    TodoListPage,
+    TasksPage,
     TabsPage,
     LoginPage
   ],
@@ -40,6 +44,8 @@ import {
   entryComponents: [
     MyApp,
     AquariumPage,
+    TodoListPage,
+    TasksPage,
     TabsPage,
     LoginPage
   ],

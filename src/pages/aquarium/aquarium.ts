@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { AlertController, NavController } from 'ionic-angular';
-import { AngularFireDatabase } from 'angularfire2/database';
+import { AngularFireDatabase, AngularFireObject } from 'angularfire2/database';
+import { Aquarium } from '../../models/aquarium';
 import * as moment from 'moment';
 
 @Component({
@@ -9,21 +10,23 @@ import * as moment from 'moment';
 })
 export class AquariumPage {
   aquariumPath: string = "aquarium";
-  private aquarium;
+  private aquarium: Aquarium;
+  private aquariumRef: AngularFireObject<Aquarium>;
 
   constructor(
     public alertCtrl: AlertController,
     public navCtrl: NavController,
     public db: AngularFireDatabase
   ) {
-    this.aquarium = this.db.object(this.aquariumPath).valueChanges()
-      .subscribe(aqr => {
-        this.aquarium = aqr;
-      });
+    this.aquarium = {};
+    this.aquariumRef = this.db.object(this.aquariumPath);
+    this.aquariumRef.valueChanges().subscribe(aqr => {
+      this.aquarium = aqr;
+    });
   }
 
   feed() {
-    this.db.object(this.aquariumPath)
+    this.aquariumRef
       .update({
         remainingQuantity: this.aquarium.remainingQuantity - 1,
         lastMealAt: new Date()
@@ -31,33 +34,33 @@ export class AquariumPage {
   }
 
   waterIsChanged() {
-    this.db.object(this.aquariumPath).update({ waterChangedAt: new Date() });
+    this.aquariumRef.update({ waterChangedAt: new Date() });
   }
 
   addMeal() {
-    this.db.object(this.aquariumPath).update({
+    this.aquariumRef.update({
       remainingQuantity: this.aquarium.remainingQuantity + 1
     });
   }
 
   removeMeal() {
-    this.db.object(this.aquariumPath).update({
+    this.aquariumRef.update({
       remainingQuantity: this.aquarium.remainingQuantity - 1
     });
   }
 
   handleAutomatisedFood() {
-    this.db.object(this.aquariumPath).update({
+    this.aquariumRef.update({
       feedEveryDay: this.aquarium.feedEveryDay
     });
   }
 
   handlefeedRemotly() {
-    this.db.object(this.aquariumPath).update({ feedRemotly: this.aquarium.feedRemotly });
+    this.aquariumRef.update({ feedRemotly: this.aquarium.feedRemotly });
   }
 
   setTodo(text: string) {
-    this.db.object(this.aquariumPath).update({ todo: text });
+    this.aquariumRef.update({ todo: text });
   }
 
   getTimeSinceLastMeal(): number {
